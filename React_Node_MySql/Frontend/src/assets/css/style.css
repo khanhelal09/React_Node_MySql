@@ -1,0 +1,307 @@
+.content {
+    /* max-width: 1200px; */
+    width: 100%;
+    margin: 0 auto;
+    /* padding: 3rem 15px; */
+    padding-top: 60px;
+    padding-bottom: 10px;
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+
+.active-item{
+    color: green;
+    margin-left: 20px;
+}
+
+.pending-item{
+    color: red;
+    margin-left: 20px;
+}
+
+.hero-bg-color{
+    background-color:aliceblue;
+}
+
+.all-right-reserved-bg-color{
+    background-color:gray;
+    height: 60px;
+    color: white;
+    /* text-align:center; */
+    /* padding: 22.5px 0; */
+    gap: 20px;
+    font-family: arial;
+    font-size: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.contact-form-style{
+    background-color:SkyBlue;
+    height: 200px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.row-div-style{
+    /* background-color:SkyBlue; */
+    height: 200px;
+    width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+    /* Hide scroll bar */
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+    scrollbar-width: none;  /* Firefox */
+ 
+}
+
+.row-div-style::-webkit-scrollbar { 
+    display: none;  /* Safari and Chrome */
+}
+
+.row-div-item-style{
+    width: 300px;
+    min-width: 300px;
+    height: 150px;
+    background: white;
+    border-radius:10px;
+    margin-right: 8px;
+    margin-left: 8px;
+    border:1px solid #73AD21;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    padding: 15px 32px;
+}
+
+.container-div{
+    width: 350px;
+    height: 200px;
+    margin: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: aliceblue;
+}
+
+.child-dev{
+    width: 50px;
+    height: 60px;
+    background-color:rebeccapurple;
+}
+
+.submit-button-style{
+    background-color:green;
+    color:white;
+    width:300px;
+    border: none;
+    text-decoration: none;
+    border-radius: 4px;
+    padding: 5px 32px;
+    text-align: center;
+    transition-duration: 0.4s;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+.submit-button-style:hover{
+    background-color:aquamarine;
+    color: black;
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+}
+
+.dropdown-menu {
+    background: #fff;
+    box-shadow: 0px 10px 30px 0px rgba(82, 63, 105, 0.05);
+    transition: all linear 0.3s;
+  }
+
+  .circular_image {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: blue;
+    display:inline-block;
+    vertical-align:middle;
+  }
+  .circular_image img{
+    width:100%;
+  }
+
+  .home_image {
+    width: 50px;
+    height: 50px;
+    /* overflow: hidden;
+    display:inline-block; */
+    vertical-align:middle;
+  }
+  .home_image img{
+    width:100%;
+  }
+
+  .nav_bar_style{
+    position: fixed;
+    top: 0px; /* Position the navbar at the top of the page */
+    overflow:visible;
+    width: 100%;
+
+    background: #63d471;
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    /* padding: 0.2rem calc((100vw - 1000px) / 2); */
+    padding: 0.2rem calc((100vw - 1000px) / 30);
+    z-index: 99;
+    /* Third Nav */
+    /* justify-content: flex-start; */
+}
+
+.menu-style{
+    /* text-align:left; */
+    /* padding: 15px 0; */
+    /* font-family: arial;
+    font-size: 20px; */
+    /* below items collect from navigation_bar project */
+    display: flex;
+    align-items: center;
+    width: 100%;
+    background:aliceblue;
+    /* margin-right: -24px;
+    @media screen and (max-width: 768px) {
+        display: none;
+    } */
+}
+
+.nav_link_style{
+    color: #808080;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    padding: 0 1rem;
+    height: 100%;
+    cursor: pointer;
+    &.active {
+        color: #000000;
+    }
+}
+
+/* Multi level dropdown menu start */
+.third-level-menu
+{
+    position: absolute;
+    top: 0;
+    right: -150px;
+    width: 150px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: none;
+}
+
+.third-level-menu > li
+{
+    height: 30px;
+    /* background: #999999; */
+    background: white;
+}
+.third-level-menu > li:hover {
+    background: #CCCCCC; 
+}
+
+.second-level-menu
+{
+    position: absolute;
+    top: 30px;
+    left: 0;
+    width: 150px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: none;
+}
+
+.second-level-menu > li
+{
+    position: relative;
+    height: 30px;
+    /* background: #999999; */
+    background: #63d471;
+}
+.second-level-menu > li:hover { 
+    background: #CCCCCC; 
+}
+
+.top-level-menu
+{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.top-level-menu > li
+{
+    position: relative;
+    float: left;
+    height: 30px;
+    width: 150px;
+    /* background: #999999; */
+}
+.top-level-menu > li:hover { 
+    background: #CCCCCC;
+}
+
+.top-level-menu li:hover > ul
+{
+    /* On hover, display the next level's menu */
+    display: inline;
+}
+
+
+/* Menu Link Styles */
+
+.top-level-menu a /* Apply to all links inside the multi-level menu */
+{
+    /* font: bold 14px Arial, Helvetica, sans-serif; */
+    /* color: #FFFFFF; */
+    text-decoration: none;
+    padding: 0 0 0 10px;
+
+    /* Make the link cover the entire list item-container */
+    display: block;
+    line-height: 30px;
+}
+/* Multi level dropdown menu End */
+
+.carousel-container{
+    background: greenyellow;
+    display: flex;
+    flex-wrap: nowrap;
+    overflow: hidden;
+}
+.carousel-item{
+    height: 20rem;
+    min-width: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 1s cubic-bezier(0.39, 0.575, 0.565, 1);
+}
+
+/* The popup form - hidden by default */
+.form-popup {
+    display: block;
+    position: fixed;
+    top: 0;
+    right: 100px;
+    border: 2px solid #f1f1f1;
+    z-index: 9;
+    background: #73AD21;
+  }
