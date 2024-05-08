@@ -3,7 +3,6 @@ const db = require("./db");
 const helper = require("../utilities/paginationhelper");
 const config = require("../config");
 
-
 async function login(loginCredential) {
   let SQLQuery = `SELECT * FROM users WHERE email="${loginCredential.email}" AND password="${loginCredential.password}"`;
   console.log("DBQueriesService login >> " + SQLQuery);
@@ -89,6 +88,24 @@ async function deleteCategory(id) {
   return { message };
 }
 
+async function getCourseByCategory(categoryid) {
+  const sql = `SELECT DISTINCT c.id, c.title, c.photo_url, c.video_url, c.type, c.category_id, c.author_id, ca.name category_name, au.name as author_name FROM courses c JOIN categories ca ON c.category_id = ca.id JOIN authors au ON c.author_id = au.id WHERE ca.id = ${categoryid}`;
+  const rows = await db.query(sql);
+  return rows;
+}
+
+async function getEnrollmentByUser(userid) {
+  const sql = `SELECT DISTINCT c.id course_id, c.title, c.photo_url, c.video_url, c.type, us.id user_id, us.username user_name FROM courses c JOIN Enrollment en ON en.course_id = c.id JOIN users us ON en.user_id = us.id WHERE us.id = ${userid}`;
+  const rows = await db.query(sql);
+  return rows;
+}
+
+async function getRating(courseID) {
+  const sql = `SELECT id, course_id, ROUND(AVG(rating),2) AS rating FROM ratings WHERE course_id = ${courseID}`;
+  const rows = await db.query(sql);
+  return rows;
+}
+
 module.exports = {
   getCategories,
   getCategory,
@@ -97,4 +114,7 @@ module.exports = {
   deleteCategory,
   createUser,
   login,
+  getCourseByCategory,
+  getEnrollmentByUser,
+  getRating,
 };

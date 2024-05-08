@@ -4,6 +4,9 @@ const postData = [{"id": 101,"name": "Json","email": "abd@gamil.com","phone": "+
 //Signup: let SQLQuery = "INSERT INTO `user`(`name`, `email`, `password`,`avater`) VALUES ('" + name + "','" + email + "','" + password + "','" + avater + "')"
 //INSERT INTO `courses`(`title`, `description`, `photo_url`, `video_url`, `type`, `hit_count`, `category_id`, `author_id`) VALUES ('Learn React JS with example','React Js course is designed by a skilled and experienced architect','photo_url','video_rul','free','0','1','2');
 //SELECT DISTINCT c.id, c.title, c.photo_url, c.video_url, c.type, c.hit_count, c.category_id, c.author_id, ca.name FROM courses c JOIN categories ca ON c.category_id = ca.id WHERE ca.id = 1;
+//SELECT DISTINCT c.id course_id, c.title, c.photo_url, c.video_url, c.type, c.hit_count, us.id user_id, us.username user_name FROM courses c JOIN Enrollment en ON en.course_id = c.id JOIN users us ON en.user_id = us.id WHERE us.id = 1;
+//INSERT INTO `Enrollment`(`user_id`, `course_id`, `status`) VALUES ('1','2','yes');
+//SELECT `id`, `course_id`, ROUND(AVG(`rating`),2) AS rating FROM `ratings` WHERE course_id = 2;
 
 function InsertData(connection){
     let SQLQuery = "INSERT INTO `students_list`(`name`, `email`, `phone`) VALUES ('Bad Khan','khan@gmail.com','01955300313')"

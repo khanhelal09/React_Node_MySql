@@ -6,6 +6,9 @@ const helper = require("../utilities/paginationhelper");
 const myUtils = require("../utilities/MyUtils.js");
 const statusCode = require("../utilities/httpStatusCode");
 
+// http://192.168.54.117:2300/we-learn/login
+// http://localhost:2300/we-learn/login
+// {"email":"khan@gmail.com", "passsord": "helal@123#"}
 router.post("/login", async function (req, res, next) {
   const emailID = req.body.email;
   const pass = req.body.passsord;
@@ -21,7 +24,9 @@ router.post("/login", async function (req, res, next) {
     var arraySize = dataArray.length;
     console.log("APIRoute >> login >> data size: " + arraySize);
     if (arraySize <= 0) {
-      return res.status(statusCode.STATUS_CODE_204).json({ status: "User not found" });
+      return res
+        .status(statusCode.STATUS_CODE_204)
+        .json({ status: "User not found" });
     }
 
     var firstItem = dataArray[0];
@@ -68,7 +73,9 @@ router.get("/autoLogin", async function (req, res, next) {
     const tokenFromHeader = req.headers.authorization;
     console.log("APIroute autoLogin >> tokenFromHeader: " + tokenFromHeader);
     if (!tokenFromHeader || tokenFromHeader === null) {
-      return res.status(statusCode.STATUS_CODE_401).json({ Status: "Authorization token not found" });
+      return res
+        .status(statusCode.STATUS_CODE_401)
+        .json({ Status: "Authorization token not found" });
     }
     // Verify the JWT token with the secret key
     const decodedToken = jsonwebtoken.verify(
@@ -82,7 +89,9 @@ router.get("/autoLogin", async function (req, res, next) {
     console.log("APIroute autoLogin >> allCookies : " + allCookies);
     // if we received no cookies then user needs to login.
     if (!allCookies || allCookies === null) {
-      return res.status(statusCode.STATUS_CODE_401).json({ Status: "All cookies not found" });
+      return res
+        .status(statusCode.STATUS_CODE_401)
+        .json({ Status: "All cookies not found" });
     }
     var cookieArray = allCookies.split(";");
     var cookie;
@@ -97,12 +106,20 @@ router.get("/autoLogin", async function (req, res, next) {
     );
     // if we received no cookies then user needs to login.
     if (!cookie || cookie === null) {
-      return res.status(statusCode.STATUS_CODE_401).json({ Status: "Cookie not found" });
+      return res
+        .status(statusCode.STATUS_CODE_401)
+        .json({ Status: "Cookie not found" });
     }
 
-     // Verify the JWT token with the secret key
-     const decodedCookieToken = jsonwebtoken.verify(cookie, myUtils.secretKeyForCookie);
-     console.log("APIroute autoLogin >> decodedCookieToken: " + JSON.stringify(decodedCookieToken));
+    // Verify the JWT token with the secret key
+    const decodedCookieToken = jsonwebtoken.verify(
+      cookie,
+      myUtils.secretKeyForCookie
+    );
+    console.log(
+      "APIroute autoLogin >> decodedCookieToken: " +
+        JSON.stringify(decodedCookieToken)
+    );
 
     const isLoggedIn = req.session.isLoggedIn;
     const emailI = req.session.email;
@@ -165,6 +182,7 @@ router.get("/categories", async function (req, res, next) {
   }
 });
 
+//http://localhost:2300/we-learn/category/1
 router.get("/category/:id", async function (req, res, next) {
   const id = req.params.id;
   try {
@@ -186,6 +204,7 @@ router.post("/createcategory", async function (req, res, next) {
   }
 });
 
+// http://localhost:2300/we-learn/updatecategory/1
 router.put("/updatecategory/:id", async function (req, res, next) {
   const id = req.params.id;
   const name = req.body.name;
@@ -203,6 +222,42 @@ router.delete("/deletecategory/:id", async function (req, res, next) {
     res.json(await dbServices.deleteCategory(id));
   } catch (err) {
     console.error(`Error while deleting Category`, err.message);
+    next(err);
+  }
+});
+
+//http://192.168.54.117:2300/we-learn/course?categoryid=1
+router.get("/course", async function (req, res, next) {
+  const categoryid = req.query.categoryid;
+  console.log("APIRoute >> course by category id: " + categoryid);
+  try {
+    res.json(await dbServices.getCourseByCategory(categoryid));
+  } catch (err) {
+    console.error(`Error while getting category `, err.message);
+    next(err);
+  }
+});
+
+//http://192.168.54.117:2300/we-learn/enrollment?userid=1
+router.get("/enrollment", async function (req, res, next) {
+  const userid = req.query.userid;
+  console.log("APIRoute >> course by category id: " + userid);
+  try {
+    res.json(await dbServices.getEnrollmentByUser(userid));
+  } catch (err) {
+    console.error(`Error while getting enrollment `, err.message);
+    next(err);
+  }
+});
+
+//http://192.168.54.117:2300/we-learn/rating?courseid=1
+router.get("/rating", async function (req, res, next) {
+  const courseID = req.query.courseid;
+  console.log("APIRoute >> rating by course id: " + courseID);
+  try {
+    res.json(await dbServices.getRating(courseID));
+  } catch (err) {
+    console.error(`Error while getting enrollment `, err.message);
     next(err);
   }
 });
