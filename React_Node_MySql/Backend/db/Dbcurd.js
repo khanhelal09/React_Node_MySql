@@ -6,6 +6,7 @@ const postData = [{"id": 101,"name": "Json","email": "abd@gamil.com","phone": "+
 //SELECT DISTINCT c.id, c.title, c.photo_url, c.video_url, c.type, c.hit_count, c.category_id, c.author_id, ca.name FROM courses c JOIN categories ca ON c.category_id = ca.id WHERE ca.id = 1;
 //SELECT DISTINCT c.id course_id, c.title, c.photo_url, c.video_url, c.type, c.hit_count, us.id user_id, us.username user_name FROM courses c JOIN Enrollment en ON en.course_id = c.id JOIN users us ON en.user_id = us.id WHERE us.id = 1;
 //INSERT INTO `Enrollment`(`user_id`, `course_id`, `status`) VALUES ('1','2','yes');
+//INSERT INTO `ratings`(`user_id`, `course_id`, `rating`, `comments`) VALUES ('1','1','4','It is fine');
 //SELECT `id`, `course_id`, ROUND(AVG(`rating`),2) AS rating FROM `ratings` WHERE course_id = 2;
 
 function InsertData(connection){

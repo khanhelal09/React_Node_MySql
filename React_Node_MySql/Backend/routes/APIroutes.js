@@ -238,14 +238,50 @@ router.get("/course", async function (req, res, next) {
   }
 });
 
+// url: http://localhost:2300/we-learn/createcourse
+// body: {"title":"Lets learn Android", "description":"Learn with fun", "photo_url": "android_url", "video_url":"android_video_url", "type":"free", "category_id":"5", "author_id":"2"}
+router.post("/createcourse", async function (req, res, next) {
+  const courseObj = {
+    title: req.body.title,
+    description: req.body.description,
+    photo_url: req.body.photo_url,
+    video_url: req.body.video_url,
+    type: req.body.type,
+    category_id: req.body.category_id,
+    author_id: req.body.author_id,
+  };
+  try {
+    res.json(await dbServices.createCourse(courseObj));
+  } catch (err) {
+    console.error(`Error while create course`, err.message);
+    next(err);
+  }
+});
+
 //http://192.168.54.117:2300/we-learn/enrollment?userid=1
 router.get("/enrollment", async function (req, res, next) {
   const userid = req.query.userid;
-  console.log("APIRoute >> course by category id: " + userid);
+  console.log("APIRoute >> courses by user id: " + userid);
   try {
     res.json(await dbServices.getEnrollmentByUser(userid));
   } catch (err) {
     console.error(`Error while getting enrollment `, err.message);
+    next(err);
+  }
+});
+
+// url: http://localhost:2300/we-learn/setenrollment
+// body: {"user_id":"5", "course_id": "1", "status": "yes"}
+router.post("/setenrollment", async function (req, res, next) {
+  const enrollment = {
+    userId: req.body.user_id,
+    courseId: req.body.course_id,
+    status: req.body.status,
+  };
+  try {
+    res.json(await dbServices.setEnrollment(enrollment));
+  } catch (err) {
+    console.error(`Error while set Enrollment`, err.message);
     next(err);
   }
 });
@@ -258,6 +294,39 @@ router.get("/rating", async function (req, res, next) {
     res.json(await dbServices.getRating(courseID));
   } catch (err) {
     console.error(`Error while getting enrollment `, err.message);
+    next(err);
+  }
+});
+
+// url: http://localhost:2300/we-learn/setrating
+// body: {"user_id":"5", "course_id": "1", "rating": "2", "comments":"It is not good"}
+router.post("/setrating", async function (req, res, next) {
+  const ratingObj = {
+    userId: req.body.user_id,
+    courseId: req.body.course_id,
+    rating: req.body.rating,
+    comments: req.body.comments,
+  };
+  try {
+    res.json(await dbServices.setRating(ratingObj));
+  } catch (err) {
+    console.error(`Error while set Rating`, err.message);
+    next(err);
+  }
+});
+
+// url: http://localhost:2300/we-learn/createauthor
+// body: {"name":"Trump", "email": "trump@gmail.com", "photo_url": "trump_url"}
+router.post("/createauthor", async function (req, res, next) {
+  const authorObj = {
+    name: req.body.name,
+    email: req.body.email,
+    photo_url: req.body.photo_url,
+  };
+  try {
+    res.json(await dbServices.createAuthor(authorObj));
+  } catch (err) {
+    console.error(`Error while create Author`, err.message);
     next(err);
   }
 });

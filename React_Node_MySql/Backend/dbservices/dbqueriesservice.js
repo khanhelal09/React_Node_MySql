@@ -94,16 +94,80 @@ async function getCourseByCategory(categoryid) {
   return rows;
 }
 
+async function createCourse(course) {
+  let SQLQuery = `INSERT INTO courses (title, description, photo_url, video_url, type, category_id,  author_id) VALUES (?, ?, ?, ?, ?, ?, ?)`;
+  const result = await db.query(SQLQuery, [
+    course.title,
+    course.description,
+    course.photo_url,
+    course.video_url,
+    course.type,
+    course.category_id,
+    course.author_id,
+  ]);
+
+  let message = "Error in create Course";
+  if (result.affectedRows) {
+    message = "Course create successfully";
+  }
+  return { message };
+}
+
 async function getEnrollmentByUser(userid) {
   const sql = `SELECT DISTINCT c.id course_id, c.title, c.photo_url, c.video_url, c.type, us.id user_id, us.username user_name FROM courses c JOIN Enrollment en ON en.course_id = c.id JOIN users us ON en.user_id = us.id WHERE us.id = ${userid}`;
   const rows = await db.query(sql);
   return rows;
 }
 
+async function setEnrollment(enrollment) {
+  let SQLQuery = `INSERT INTO Enrollment (user_id, course_id, status) VALUES (?, ?, ?)`;
+  const result = await db.query(SQLQuery, [
+    enrollment.userId,
+    enrollment.courseId,
+    enrollment.status,
+  ]);
+
+  let message = "Error in set Enrollment";
+  if (result.affectedRows) {
+    message = "Enrollment set successfully";
+  }
+  return { message };
+}
+
 async function getRating(courseID) {
   const sql = `SELECT id, course_id, ROUND(AVG(rating),2) AS rating FROM ratings WHERE course_id = ${courseID}`;
   const rows = await db.query(sql);
   return rows;
+}
+
+async function setRating(rating) {
+  let SQLQuery = `INSERT INTO ratings (user_id, course_id, rating, comments) VALUES (?, ?, ?, ?)`;
+  const result = await db.query(SQLQuery, [
+    rating.userId,
+    rating.courseId,
+    rating.rating,
+    rating.comments,
+  ]);
+
+  let message = "Error in set Rating";
+  if (result.affectedRows) {
+    message = "Rating set successfull";
+  }
+  return { message };
+}
+
+async function createAuthor(author) {
+  let SQLQuery = `INSERT INTO authors (name, email, photo_url) VALUES (?, ?, ?)`;
+  const result = await db.query(SQLQuery, [
+    author.name,
+    author.email,
+    author.photo_url,
+  ]);
+  let message = "Error in creating Author";
+  if (result.affectedRows) {
+    message = "Author created successfully";
+  }
+  return { message };
 }
 
 module.exports = {
@@ -117,4 +181,8 @@ module.exports = {
   getCourseByCategory,
   getEnrollmentByUser,
   getRating,
+  setEnrollment,
+  setRating,
+  createCourse,
+  createAuthor
 };
