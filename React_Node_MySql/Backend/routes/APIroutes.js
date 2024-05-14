@@ -51,7 +51,11 @@ router.post("/login", async function (req, res, next) {
     });
 
     //Create a JWT auth token with the user ID as the payload
-    const token = jsonwebtoken.sign({ ID: emailID }, myUtils.secretKeyForToken);
+    const token = jsonwebtoken.sign(
+      { ID: emailID },
+      myUtils.secretKeyForToken,
+      { expiresIn: myUtils.authTokenExpireTime }
+    );
     //res.status(200).json({"token": token});
 
     req.session.isLoggedIn = true;
@@ -68,7 +72,7 @@ router.post("/login", async function (req, res, next) {
 });
 
 // this path will be used to check if the cookie is valid to auto login inside the application;
-router.get("/autoLogin", async function (req, res, next) {
+router.get("/testcookieauthtoken", async function (req, res, next) {
   try {
     const tokenFromHeader = req.headers.authorization;
     console.log("APIroute autoLogin >> tokenFromHeader: " + tokenFromHeader);
@@ -175,6 +179,17 @@ router.post("/createuser", async function (req, res, next) {
 
 router.get("/categories", async function (req, res, next) {
   try {
+    const tokenFromHeader = req.headers.authorization;
+    const isValidUser = myUtils.isAuthorizedUser(tokenFromHeader);
+    console.log(
+      "APIroute >> categories>> Authorization status: " + isValidUser
+    );
+    if (!isValidUser) {
+      return res
+        .status(statusCode.STATUS_CODE_401)
+        .json({ Status: "UnAuthorize User" });
+    }
+
     res.json(await dbServices.getCategories(req.query.page));
   } catch (err) {
     console.error(`Error while getting categories `, err.message);
@@ -184,8 +199,15 @@ router.get("/categories", async function (req, res, next) {
 
 //http://localhost:2300/we-learn/category/1
 router.get("/category/:id", async function (req, res, next) {
-  const id = req.params.id;
   try {
+    const isValidUser = myUtils.isAuthorizedUser(req.headers.authorization);
+    if (!isValidUser) {
+      return res
+        .status(statusCode.STATUS_CODE_401)
+        .json({ Status: "UnAuthorize User" });
+    }
+
+    const id = req.params.id;
     res.json(await dbServices.getCategory(id));
   } catch (err) {
     console.error(`Error while getting category `, err.message);
@@ -194,8 +216,8 @@ router.get("/category/:id", async function (req, res, next) {
 });
 
 router.post("/createcategory", async function (req, res, next) {
-  const name = req.body.name;
   try {
+    const name = req.body.name;
     console.log("createcategory Route name: " + name);
     res.json(await dbServices.createCategory(name));
   } catch (err) {
@@ -206,9 +228,9 @@ router.post("/createcategory", async function (req, res, next) {
 
 // http://localhost:2300/we-learn/updatecategory/1
 router.put("/updatecategory/:id", async function (req, res, next) {
-  const id = req.params.id;
-  const name = req.body.name;
   try {
+    const id = req.params.id;
+    const name = req.body.name;
     res.json(await dbServices.updateCategory(id, name));
   } catch (err) {
     console.error(`Error while updating Category`, err.message);
@@ -217,8 +239,8 @@ router.put("/updatecategory/:id", async function (req, res, next) {
 });
 
 router.delete("/deletecategory/:id", async function (req, res, next) {
-  const id = req.params.id;
   try {
+    const id = req.params.id;
     res.json(await dbServices.deleteCategory(id));
   } catch (err) {
     console.error(`Error while deleting Category`, err.message);
@@ -227,10 +249,10 @@ router.delete("/deletecategory/:id", async function (req, res, next) {
 });
 
 //http://192.168.54.117:2300/we-learn/course?categoryid=1
-router.get("/course", async function (req, res, next) {
-  const categoryid = req.query.categoryid;
-  console.log("APIRoute >> course by category id: " + categoryid);
+router.get("/courses", async function (req, res, next) {
   try {
+    const categoryid = req.query.categoryid;
+    console.log("APIRoute >> course by category id: " + categoryid);
     res.json(await dbServices.getCourseByCategory(categoryid));
   } catch (err) {
     console.error(`Error while getting category `, err.message);
